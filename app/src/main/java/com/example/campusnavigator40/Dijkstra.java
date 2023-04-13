@@ -112,8 +112,6 @@ public class Dijkstra {
     //Method to return the path that needs to be taken in the form of an array list
     public static ArrayList<Vertex> pathArray(Graph g, Vertex startingVertex, Vertex targetVertex){
         Dictionary[] dijkstraDictionaries = dijkstra(g, startingVertex);
-        //distances is graph
-        Dictionary distances = dijkstraDictionaries[0];
         //previous is startingVertex
         Dictionary previous = dijkstraDictionaries[1];
 

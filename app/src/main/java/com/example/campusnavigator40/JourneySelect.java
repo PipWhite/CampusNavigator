@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -229,15 +230,30 @@ public class JourneySelect extends AppCompatActivity {
     }
 
     private void openMainActivity() {
+        //Add message if either of the selection boxes are empty or if they are the same
+
         TextView journeyStart = findViewById(R.id.text_view_journey_start);
         String journeyStartText = journeyStart.getText().toString();
         TextView journeyEnd = findViewById(R.id.text_view_journey_end);
         String journeyEndText = journeyEnd.getText().toString();
 
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra(EXTRA_TEXT, journeyStartText);
-        intent.putExtra(EXTRA_TEXT2, journeyEndText);
-        startActivity(intent);
+        if (journeyStartText == ""){
+            Toast.makeText(JourneySelect.this, "Select a starting destination", Toast.LENGTH_SHORT).show();
+        }
+        else if (journeyEndText == ""){
+            Toast.makeText(JourneySelect.this, "Select a target destination", Toast.LENGTH_SHORT).show();
+        }
+        else if (journeyEndText == journeyStartText){
+            Toast.makeText(JourneySelect.this, "Starting destination cannot be the same as target destination", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra(EXTRA_TEXT, journeyStartText);
+            intent.putExtra(EXTRA_TEXT2, journeyEndText);
+            startActivity(intent);
+        }
+
+
     }
 
 }

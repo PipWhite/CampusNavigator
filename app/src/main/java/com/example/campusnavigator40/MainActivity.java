@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         gyroscope = new Gyroscope(this);
 
         //Applying the desired text to the accelerometer and gyroscope textviews
+        /*
         accelerometer.setListener(new Accelerometer.Listener() {
             @Override
             public void onTranslation(double tx, double ty, double tz) {
@@ -71,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+         */
 
         startJourney();
 
@@ -205,7 +208,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        ArrayList<Vertex> path = Dijkstra.pathArray(rBlock, selectedStartV, selectedEndV);
+        ArrayList<Vertex> path;
+        path = Dijkstra.pathArray(rBlock, selectedStartV, selectedEndV);
 
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
 
@@ -259,35 +263,57 @@ public class MainActivity extends AppCompatActivity {
 
                     });
 
-                    //-----------------------------
-
                     double NS2S = 1.0f / 1000000000.0f;
                     double distanceTravelled = 0.0;
 
+                    long previousTimestamp = 0;
                     /*
                     while (edgeWeight > distanceTravelled){
 
+
                         //get acceleration here
-                        double acceleration = 1;
+
+                        ArrayList<Double> acceleration = new ArrayList<>();
+                        acceleration.add(0.0);
+
+                        accelerometer.setListener(new Accelerometer.Listener() {
+                            @Override
+                            public void onTranslation(double tx, double ty, double tz) {
+                                acceleration.set(0, tz);
+
+
+                            }
+                        });
+
+
+
 
                         double velocity = 0;
-
                         long currentTimestamp = System.nanoTime();
-                        long previousTimestamp = 0;
-                        if (previousTimestamp != 0){
+
+
+                        if (previousTimestamp == 0){
                             double deltaTime = (currentTimestamp - previousTimestamp) * NS2S;
 
 
-                            velocity += acceleration * deltaTime;
+                            velocity += acceleration.get(0) * deltaTime;
                             distanceTravelled += velocity * deltaTime;
                         }
+
+
+
+
                         previousTimestamp = currentTimestamp;
+
+
                     }
 
                      */
+
                 }
             }
         }
+        Toast.makeText(MainActivity.this, "You have reached your destination", Toast.LENGTH_SHORT).show();
 
     }
 

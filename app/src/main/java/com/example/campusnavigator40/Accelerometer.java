@@ -49,7 +49,7 @@ class Accelerometer {
     }
 
     public void register(){
-        sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_UI);
+        sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     public void unregister(){
