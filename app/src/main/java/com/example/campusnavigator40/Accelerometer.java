@@ -8,7 +8,15 @@ import android.hardware.SensorManager;
 
 class Accelerometer {
 
+    private double[] translation = {0, 0, 0};
+
+    // This method can be called to get the current translation values.
+    public double[] getTranslation() {
+        return translation;
+    }
+
     public interface Listener{
+
         void onTranslation(double tx, double ty, double tz);
     }
 
@@ -33,7 +41,9 @@ class Accelerometer {
 
 
                 if(listener != null){
-
+                    translation[0] = sensorEvent.values[0];
+                    translation[1] = sensorEvent.values[1];
+                    translation[2] = sensorEvent.values[2];
                     //[0] is acceleration along the x axis, [1] is acceleration along the y axis, [2] is acceleration along the z axis
                     // all recorded in m/s^2
                     listener.onTranslation(sensorEvent.values[0], sensorEvent.values[1], sensorEvent.values[2]);

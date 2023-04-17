@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         gyroscope = new Gyroscope(this);
 
         //Applying the desired text to the accelerometer and gyroscope textviews
-        /*
+/*
         accelerometer.setListener(new Accelerometer.Listener() {
             @Override
             public void onTranslation(double tx, double ty, double tz) {
@@ -60,28 +60,30 @@ public class MainActivity extends AppCompatActivity {
                 accelYvalue.setText("AY: " + ty);
                 accelZvalue.setText("AZ: " + tz);
 
+                final double acceleration = tz;
+
             }
         });
+
+ */
 
         gyroscope.setListener(new Gyroscope.Listener() {
             @Override
             public void onRotation(float rx, float ry, float rz) {
                 gyroXvalue.setText("RX: " + rx);
                 gyroYvalue.setText("RY: " + ry);
-                gyroZvalue.setText("RZ: " + rz);
 
             }
         });
 
-         */
 
-        startJourney();
+            startJourney();
 
 
 
     }
 
-    private void startJourney(){
+    private void startJourney() {
 
         // Setting up graph vertices and edges
         Graph rBlock = new Graph(true, false);
@@ -208,20 +210,17 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+
         ArrayList<Vertex> path;
         path = Dijkstra.pathArray(rBlock, selectedStartV, selectedEndV);
 
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-
         //sets up the arrow model
         setUpModel();
         Node node = new Node();
         Quaternion direction;
 
         for (int i = 0; i < path.size() - 1; i++){
-
-
-
             //Gets the start vertex and the x and y coordinated
             Vertex startV = path.get(i);
             Double startX = startV.getX();
@@ -232,27 +231,27 @@ public class MainActivity extends AppCompatActivity {
             Double endY = endV.getY();
 
             //Iterates through all the edges connected to the start Vertex
-            for (Edge e: startV.getEdges()){
+            for (Edge e: startV.getEdges()) {
                 //Find the edge that has the end vertex of the next node
-                if( e.getEnd() == endV){
+                Double edgeWeight;
+                if (e.getEnd() == endV) {
                     //The weight of the current edge
-                    Double edgeWeight = e.getWeight();
+                    edgeWeight = e.getWeight();
+                    accelXvalue.setText("Edge weight: " + edgeWeight);
                     //setting direction of the arrow
-                    if(endY > startY) direction = new Quaternion(0,1,0,1); //forward
-                    else if(endY < startY) direction = new Quaternion(0,1,0,-1); //backwards
-                    else if(endX > startX) direction = new Quaternion(0,0,0,0);//right
-                    else direction = new Quaternion(0,1,0,0);// left
+                    if (endY > startY) direction = new Quaternion(0, 1, 0, 1); //forward
+                    else if (endY < startY) direction = new Quaternion(0, 1, 0, -1); //backwards
+                    else if (endX > startX) direction = new Quaternion(0, 0, 0, 0);//right
+                    else direction = new Quaternion(0, 1, 0, 0);// left
 
                     //creates the arrow in the AR scene and points it in the right direction
-
                     Quaternion finalDirection = direction;
                     arFragment.getArSceneView().getScene().addOnUpdateListener(frameTime -> {
                         Camera camera = arFragment.getArSceneView().getScene().getCamera();
-                        Ray ray = camera.screenPointToRay(1080 / 2f, 3*(2340/ 4f));
+                        Ray ray = camera.screenPointToRay(1080 / 2f, 3 * (2340 / 4f));
                         Vector3 newPosition = ray.getPoint(1f);
                         node.setParent(arFragment.getArSceneView().getScene());
                         node.setRenderable(modelRenderable);
-
                         node.setLocalPosition(newPosition);
                         //this sets the rotation of the arrow when it is placed
                         //(0,1,0,0) points left
@@ -263,52 +262,36 @@ public class MainActivity extends AppCompatActivity {
 
                     });
 
-                    double NS2S = 1.0f / 1000000000.0f;
+
+                    double NS2S = 1.0 / 1000000000.0;
                     double distanceTravelled = 0.0;
+                    long previousTimestamp = System.nanoTime();
+                    double velocity = 0;
+                    double deltaTime;
 
-                    long previousTimestamp = 0;
-                    /*
-                    while (edgeWeight > distanceTravelled){
-
-
-                        //get acceleration here
-
-                        ArrayList<Double> acceleration = new ArrayList<>();
-                        acceleration.add(0.0);
-
-                        accelerometer.setListener(new Accelerometer.Listener() {
-                            @Override
-                            public void onTranslation(double tx, double ty, double tz) {
-                                acceleration.set(0, tz);
-
-
-                            }
-                        });
-
-
-
-
-                        double velocity = 0;
-                        long currentTimestamp = System.nanoTime();
-
-
-                        if (previousTimestamp == 0){
-                            double deltaTime = (currentTimestamp - previousTimestamp) * NS2S;
-
-
-                            velocity += acceleration.get(0) * deltaTime;
-                            distanceTravelled += velocity * deltaTime;
+                    //get acceleration here
+                    double[] acceleration = accelerometer.getTranslation();
+                    accelerometer.setListener(new Accelerometer.Listener() {
+                        @Override
+                        public void onTranslation(double tx, double ty, double tz) {
+                            acceleration[0] = tx;
+                            acceleration[1] = ty;
+                            acceleration[2] = tz;
+                            double tAcceleration = Math.sqrt((tx*tx)+(ty*ty)+(tz*tz));
+                            accelZvalue.setText( "" + tAcceleration);
                         }
+                    });
 
 
-
-
+                    while (edgeWeight > distanceTravelled) {
+                        long currentTimestamp = System.nanoTime();
+                        deltaTime = (currentTimestamp - previousTimestamp) * NS2S;
+                        velocity += acceleration[0] * deltaTime;
+                        distanceTravelled += velocity * deltaTime;
                         previousTimestamp = currentTimestamp;
-
 
                     }
 
-                     */
 
                 }
             }
