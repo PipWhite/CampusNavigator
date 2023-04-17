@@ -7,20 +7,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.ar.core.Anchor;
-import com.google.ar.sceneform.AnchorNode;
 import com.google.ar.sceneform.Camera;
 import com.google.ar.sceneform.Node;
 import com.google.ar.sceneform.collision.Ray;
 import com.google.ar.sceneform.math.Quaternion;
 import com.google.ar.sceneform.math.Vector3;
-import com.google.ar.sceneform.rendering.Color;
-import com.google.ar.sceneform.rendering.MaterialFactory;
 import com.google.ar.sceneform.rendering.ModelRenderable;
-import com.google.ar.sceneform.rendering.ShapeFactory;
 import com.google.ar.sceneform.ux.ArFragment;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,44 +36,12 @@ public class MainActivity extends AppCompatActivity {
 
         //Setting the textviews as these values
         accelXvalue = findViewById(R.id.accelXvalue);
-        accelYvalue = findViewById(R.id.accelYvalue);
         accelZvalue = findViewById(R.id.accelZvalue);
-        gyroXvalue = findViewById(R.id.gyroXvalue);
-        gyroYvalue = findViewById(R.id.gyroYvalue);
-        gyroZvalue = findViewById(R.id.gyroZvalue);
 
         accelerometer = new Accelerometer(this);
         gyroscope = new Gyroscope(this);
 
-        //Applying the desired text to the accelerometer and gyroscope textviews
-/*
-        accelerometer.setListener(new Accelerometer.Listener() {
-            @Override
-            public void onTranslation(double tx, double ty, double tz) {
-                accelXvalue.setText("AX: " + tx);
-                accelYvalue.setText("AY: " + ty);
-                accelZvalue.setText("AZ: " + tz);
-
-                final double acceleration = tz;
-
-            }
-        });
-
- */
-
-        gyroscope.setListener(new Gyroscope.Listener() {
-            @Override
-            public void onRotation(float rx, float ry, float rz) {
-                gyroXvalue.setText("RX: " + rx);
-                gyroYvalue.setText("RY: " + ry);
-
-            }
-        });
-
-
             startJourney();
-
-
 
     }
 
@@ -282,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
-
+/*
                     while (edgeWeight > distanceTravelled) {
                         long currentTimestamp = System.nanoTime();
                         deltaTime = (currentTimestamp - previousTimestamp) * NS2S;
@@ -292,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
 
                     }
 
-
+ */
                 }
             }
         }

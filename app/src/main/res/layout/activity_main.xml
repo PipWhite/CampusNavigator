@@ -28,13 +28,6 @@
             android:layout_marginLeft="10dp"
             android:text="tx" />
 
-        <TextView
-            android:id="@+id/accelYvalue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:text="ty" />
 
         <TextView
             android:id="@+id/accelZvalue"
@@ -43,32 +36,6 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:text="tz" />
-
-        <TextView
-            android:id="@+id/gyroXvalue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="-75dp"
-            android:layout_marginLeft="200dp"
-            android:text="rx" />
-
-        <TextView
-            android:id="@+id/gyroYvalue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="200dp"
-            android:text="ry" />
-
-        <TextView
-            android:id="@+id/gyroZvalue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="200dp"
-            android:text="rz" />
-
-
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
