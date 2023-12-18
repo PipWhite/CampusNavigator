@@ -224,7 +224,6 @@ public class MainActivity extends AppCompatActivity {
 
                     });
 
-
                     double NS2S = 1.0 / 1000000000.0;
                     double distanceTravelled = 0.0;
                     long previousTimestamp = System.nanoTime();
@@ -232,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
                     double deltaTime;
 
                     //get acceleration here
-                    double[] acceleration = accelerometer.getTranslation();
+                    double[] acceleration = new double[3];
                     accelerometer.setListener(new Accelerometer.Listener() {
                         @Override
                         public void onTranslation(double tx, double ty, double tz) {
